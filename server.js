@@ -138,7 +138,7 @@ io.sockets.on('connection', function (socket) {
       logger.log('Octave event', nodeL.LOG_TYPE.EVENT);
       logger.log('Octave DATA : ' + JSON.stringify(data));
 
-      socket.emit('octave', { ch: data.ch, lines: [data.cmd] });
+      socket.emit('octave', { channel: data.channel, msg: data.cmd });
     });
     
 });

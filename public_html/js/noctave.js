@@ -5,20 +5,6 @@ $(document).ready(function() {
   socket.on('connected', function (data) {
     console.log('connected');
 
-    var starting_fresh = true;
-    if (starting_fresh) {
-      var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : 1, scrollback: ''});
-      console.log(mc);
-      $('#mc').html(mc);
-      $('#mc-1').show();
-      socket.emit('octave', { channel: 1, cmd: ''});
-    }
-    else {
-      // @TODO Retrieve channel content, loop through channels
-      //var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : 1, scrollback: ''});
-      //console.log(mc);
-      //$('#mc').append(mc);
-    }
   });
 
   socket.on('octave', function (data) {
@@ -36,7 +22,20 @@ $(document).ready(function() {
     socket.emit('octave-received', { status: 'ok' });
   });
 
-
+  var starting_fresh = true;
+  if (starting_fresh) {
+    var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : 1, scrollback: ''});
+    console.log(mc);
+    $('#mc').html(mc);
+    $('#mc-1').show();
+    socket.emit('octave', { channel: 1, cmd: ''});
+  }
+  else {
+    // @TODO Retrieve channel content, loop through channels
+    //var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : 1, scrollback: ''});
+    //console.log(mc);
+    //$('#mc').append(mc);
+  }
 
   $('form.input').submit(function() {
     console.log('hi');
