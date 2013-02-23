@@ -51,9 +51,10 @@ $(document).ready(function() {
 
   function attachChSwitchClick(context) {
     $('.ch-link', context).click(function() {
-	var index = $("a.ch-link").index(this);
-	$('.mc').hide();
-	$('.mc:eq(' + index + ')').show();
+      var index = $("a.ch-link").index(this);
+      console.log("That was div index #" + index);
+      $('.mc').hide();
+      $('.mc:eq(' + index + ')').show();
     });
   }
   attachChSwitchClick(document);
