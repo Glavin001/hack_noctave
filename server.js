@@ -78,6 +78,7 @@ app.configure(function(){
     dumpExceptions: true, 
     showStack: true
   }));
+  app.set('view engine', 'ejs');
   // session support
   app.use(express.cookieParser());
   app.use(express.session({
@@ -91,13 +92,17 @@ app.configure(function(){
 
 logger.log('Starting server.');
 
-app.get('/', function (request, response) {
-    
+app.get('/', function (req, res) {
     logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
-    
+    req.on('end', requestEnded);
+    req.on('close', requestClosed);
+    res.render('index.ejs');
+});
+
+app.get('/test', function (request, response) {
+    logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
     request.on('end', requestEnded);
     request.on('close', requestClosed);
-    
     response.sendfile('./public_html/test.html');
 });
 
