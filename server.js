@@ -115,14 +115,6 @@ logger.log('Server started.');
 // End Server
 // ----------------------------------------------------------------------------
 
-function validateOctaveCmd(octCmd) {
-    if (octCmd === undefined || octCmd === null || 
-        octCmd.cmd === undefined || octCmd.cmd === null ||
-        octCmd.channel === undefined || octCmd.channel === null) {
-        throw 'Invalid octave command object.';
-    }
-}
-
 // ----------------------------------------------------------------------------
 // Start Socket
 // ----------------------------------------------------------------------------
@@ -130,37 +122,140 @@ function validateOctaveCmd(octCmd) {
 sessionStore = {};
 
 logger.log('Setup socket.');
-var EVENT = nodeL.LOG_TYPE.EVENT;
+var 
+    EVENT = nodeL.LOG_TYPE.EVENT,
+    ERROR = nodeL.LOG_TYPE.ERROR;
 
 var 
     io = require('socket.io').listen(server),
     spawn = require('child_process').spawn;
+    
+// validate the command object sent over socket
+function validateOctCmdObject(octCmd) {
+    
+    if (octCmd === undefined || octCmd === null || 
+        octCmd.cmd === undefined || octCmd.cmd === null ||
+        octCmd.channel === undefined || octCmd.channel === null) {
+        throw 'Invalid octave command object.';
+    }
+}
+
+// validate the command string
+function validateAndRunCmd(sid, octCmd) {
+    
+    logger.log('Testing command.', EVENT);
+    
+    // testing octave instance
+    toct = spawn('octave');
+    
+     // config stream
+    toct.stdout.setEncoding('utf8');
+
+    // catch any stream problems
+    toct.stdin.on('error', function() {
+        logger.log('TEST  |  EVENT : octave instream error' , EVENT);
+    });
+
+    toct.stdin.on('close', function() {
+        logger.log('TEST  |  EVENT : octave instream close' , EVENT);
+    });
+
+    // setup output stream events events
+    toct.stdout.on('end', function () {
+        logger.log('TEST  |  EVENT : octave outstream end' , EVENT);
+    });
+
+    toct.stdout.on('close', function () {
+        logger.log('TEST  |  EVENT : octave outstream close' , EVENT); 
+    });
+
+    toct.stdout.on('error', function () {
+         logger.log('TEST  |  EVENT : octave outstream error' , EVENT);
+    });
+    
+    toct.stdout.on('data', function () {
+        
+        logger.log('TEST  |  EVENT : octave command okay!' , EVENT);
+        sessionStore[sid].channel[octCmd.channel].stdin.write(octCmd.cmd);
+    });
+            
+    toct.stdin.write(octCmd.cmd);
+}
+
+/*
+ * 
+ * @param {type} sid
+ * @param {type} channel
+ * @returns {undefined}
+ */
+function setupChannel(sid, channel) {
+    
+    // open our octave process
+    sessionStore[sid].channel[channel] = spawn('octave');
+
+    // config stream
+    sessionStore[sid].channel[channel].stdout.setEncoding('utf8');
+    sessionStore[sid].channel[channel].runCmd = true;
+
+    // setup input stream events
+    sessionStore[sid].channel[channel].stdin.on('drain', function() {
+        logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave instream drain' , EVENT);
+    });
+
+    sessionStore[sid].channel[channel].stdin.on('close', function() {
+        logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave instream close' , EVENT);
+    });
+
+    sessionStore[sid].channel[channel].stdin.on('pipe', function() {
+        logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave instream pipe' , EVENT);
+    });
+
+    // setup output stream events events
+    sessionStore[sid].channel[channel].stdout.on('end', function () {
+        logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave outstream end' , EVENT);
+    });
+
+    sessionStore[sid].channel[channel].stdout.on('close', function () {
+        logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave outstream close' , EVENT); 
+    });
+
+    sessionStore[sid].channel[channel].stdout.on('error', function () {
+         logger.log('Session : ' + sid + '  |  Channel : ' + channel + '  |  EVENT : octave outstream error' , EVENT);
+    });
+}
 
 io.sockets.on('connection', function (socket) {
-<<<<<<< HEAD
     
     if (socket.sid === undefined || socket.sid === null) {
         socket.sid = socket.handshake.sessionID;
     }
-    
-=======
 
     socket.emit('connected', { status: 'ok' });
-
->>>>>>> 3789b392cfc3373d6b2669f651ed24464bd014be
-    // testing method
-    socket.on('test', function (data) {
+    
+    socket.on('test', 
+        /*
+         * 
+         * @param {type} data
+         * @returns {undefined}
+         */
+        function (data) {
+        
         logger.log('SOCKET SID : ' + socket.sid);
         logger.log('TEST DATA  : ' + JSON.stringify(data));
     });
 
-    // listen octave event
-    socket.on('octave', function (octCmd) {
+    socket.on('octave',         
+        /*
+         * 
+         * @param {type} octCmd
+         * @returns {unresolved}
+         */
+        function (octCmd) {
         
         logger.log('Octave event', EVENT);
         
         try {
-            validateOctaveCmd(octCmd);
+            validateOctCmdObject(octCmd);
         } catch (err) {
             logger.log(err, EVENT);
             return ;
@@ -178,38 +273,68 @@ io.sockets.on('connection', function (socket) {
         if (sessionStore[socket.sid].channel[octCmd.channel] === undefined 
                 || sessionStore[socket.sid].channel[octCmd.channel] === null) {
             
-            // open our octave process
-            sessionStore[socket.sid].channel[octCmd.channel] = spawn('octave');
+            setupChannel(socket.sid, octCmd.channel);
             
-            // setup stream
-            sessionStore[socket.sid].channel[octCmd.channel].stdout.setEncoding('utf8');
-            
-            // setup output stream events events
-            sessionStore[socket.sid].channel[octCmd.channel].stdout.on('end', function () {
-                logger.log('Session : ' + socket.sid + '  |  Channel : ' + octCmd.channel + '  |  EVENT : octave end' , EVENT);
+            // socket callbacks
+            sessionStore[socket.sid].channel[octCmd.channel].stdin.on('error', function() {
+                logger.log('Session : ' + socket.sid + '  |  Channel : ' + octInfo.channel + '  |  EVENT : octave instream error' , EVENT);
+                socket.emit('octave', {channel : octCmd.channel, msg : 'Octave command error.'});
             });
-            
-            sessionStore[socket.sid].channel[octCmd.channel].stdout.on('close', function () {
-                logger.log('Session : ' + socket.sid + '  |  Channel : ' + octCmd.channel + '  |  EVENT : octave close' , EVENT); 
-            });
-            
-            sessionStore[socket.sid].channel[octCmd.channel].stdout.on('error', function () {
-                 logger.log('Session : ' + socket.sid + '  |  Channel : ' + octCmd.channel + '  |  EVENT : octave error' , EVENT);
-            });
-            
+
             sessionStore[socket.sid].channel[octCmd.channel].stdout.on('data', function (message) {
-                    logger.log('Octave message : ' + JSON.stringify(message), EVENT);
+                logger.log('Octave message : ' + JSON.stringify(message), EVENT);
+                if (!(/GNU Octave/.test(JSON.stringify(message)))) {
                     socket.emit('octave', { channel : octCmd.channel, msg : message});
+                }
             });
             
             logger.log('Setup new channel.', EVENT);    
         }
         
-        // run octave input
-        logger.log('Octave command : ' + octCmd.cmd, EVENT);
-        sessionStore[socket.sid].channel[octCmd.channel].stdin.write(octCmd.cmd);  
+        // write the command to octave
+        sessionStore[socket.sid].channel[octCmd.channel].stdin.write(octCmd.cmd);
     });
     
+    /*
+     * reset the channel
+     */
+    socket.on('reset', function (octInfo) {
+        
+        logger.log('Reset event', EVENT);
+        
+        if (octInfo === undefined || octInfo === null ||
+            octInfo.channel === undefined || octInfo.channel === null) {
+            
+            logger.log('Invalid reset object.', ERROR);
+            return ;
+        }
+        
+         setupChannel(socket.sid, octInfo.channel);
+            
+        // socket callbacks
+        sessionStore[socket.sid].channel[octInfo.channel].stdin.on('error', function() {
+            logger.log('Session : ' + socket.sid + '  |  Channel : ' + octInfo.channel + '  |  EVENT : octave instream error' , EVENT);
+            socket.emit('octave', {channel : octInfo.channel, msg : 'Octave command error.'});
+        });
+
+        sessionStore[socket.sid].channel[octInfo.channel].stdout.on('data', function (message) {
+            logger.log('Octave message : ' + JSON.stringify(message), EVENT);
+            if (!(/GNU Octave/.test(JSON.stringify(message)))) {
+                socket.emit('octave', { channel : octInfo.channel, msg : message});
+            }
+        });
+        
+        logger.log('Channel has been reset.', EVENT); 
+        
+    });
+    
+    socket.on('save', function (octInfo) {
+        
+    });
+    
+    socket.on('load', function (octInfo) {
+        
+    });
 });
  
 io.set('authorization', function (data, accept) {
