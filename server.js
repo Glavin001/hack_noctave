@@ -79,6 +79,7 @@ app.configure(function(){
     showStack: true
   }));
   app.set('view engine', 'ejs');
+
   // session support
   app.use(express.cookieParser());
   app.use(express.session({
@@ -87,7 +88,7 @@ app.configure(function(){
         key: 'noct.sid'
     }));
     
-    app.use(app.router);
+  app.use(app.router);
 });
 
 logger.log('Starting server.');
@@ -123,24 +124,28 @@ logger.log('Setup socket.');
 
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
-    
+
+    socket.emit('connected', { status: 'ok' });
+
     // testing method
     socket.on('test', function (data) {
         logger.log('TEST DATA : ' + JSON.stringify(data));
     });
-    
+
     // listen octave event
-    socket.on('octave', function (user) {
-        
-        logger.log('Octave event', nodeL.LOG_TYPE.EVENT);
-        
+    socket.on('octave', function (data) {
+
+      logger.log('Octave event', nodeL.LOG_TYPE.EVENT);
+      logger.log('Octave DATA : ' + JSON.stringify(data));
+
+      socket.emit('octave', { ch: data.ch, lines: [data.cmd] });
     });
     
 });
  
 io.set('authorization', function (data, accept) {
-    
-    if (data.headers.cookie) {    
+
+    if (data.headers.cookie) {
         // attain the session id
         data.sessionID = connect.utils.parseSignedCookies(cookie.parse(decodeURIComponent(data.headers.cookie)),'n0ct4v3')['noct.sid'];
         return accept(null, true);
