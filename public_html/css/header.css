@@ -1,0 +1,42 @@
+/* 
+    Document   : header
+    Created on : 23-Feb-2013, 6:27:45 PM
+    Author     : dawson
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+header {
+    border-bottom: 1px solid #000;
+    padding : 0px 20px 0px 20px;
+    margin-bottom: 10px;
+}
+
+header font {
+    font-family: 'Courier New';
+}
+
+#logo {
+	font-size: 40px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 20px;
+}
+
+header #branding {
+    float: right;
+}
+
+#branding-node-js {
+    border-bottom: 1px solid #000;
+    margin: 0;
+}
+
+#branding-web {
+    width: 100%;
+    text-align: center;
+}

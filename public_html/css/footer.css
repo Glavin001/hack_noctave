@@ -1,0 +1,19 @@
+/* 
+    Document   : footer.css
+    Created on : 23-Feb-2013, 7:07:16 PM
+    Author     : dawson
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+footer {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+footer li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px 10px 0px 10px;
+}
