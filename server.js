@@ -231,7 +231,7 @@ io.sockets.on('connection', function (socket) {
     }
 
     socket.emit('connected', { status: 'ok' });
-    
+
     socket.on('test', 
         /*
          * 
@@ -239,7 +239,6 @@ io.sockets.on('connection', function (socket) {
          * @returns {undefined}
          */
         function (data) {
-        
         logger.log('SOCKET SID : ' + socket.sid);
         logger.log('TEST DATA  : ' + JSON.stringify(data));
     });
@@ -253,7 +252,7 @@ io.sockets.on('connection', function (socket) {
         function (octCmd) {
         
         logger.log('Octave event', EVENT);
-        
+
         try {
             validateOctCmdObject(octCmd);
         } catch (err) {

@@ -37,13 +37,41 @@ $(document).ready(function() {
     //$('#mc').append(mc);
   }
 
-  $('form.input').submit(function() {
-    console.log('hi');
-    var cmd = $(".input-text", this).val();
-    $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
-    $('.input-text', this).val('');
-    socket.emit('octave', { channel: 1, cmd: cmd + '\n'});
-    return false;
+
+  function attachFormSubmit(context) {
+    $('form.input', context).submit(function() {
+      var cmd = $(".input-text", this).val();
+      $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
+      $('.input-text', this).val('');
+      var index = $('.mc').index($(this).parent()) + 1;
+      socket.emit('octave', { channel: index, cmd: cmd + '\n'});
+      return false;
+    });
+  }
+  attachFormSubmit(document);
+
+  function attachChSwitchClick(context) {
+    $('.ch-link', context).click(function() {
+      var index = $("a.ch-link").index(this);
+      console.log("That was div index #" + index);
+      $('.mc').hide();
+      $('.mc:eq(' + index + ')').show();
+    });
+  }
+  attachChSwitchClick(document);
+
+  $('#new-channel').click(function() {
+    var current_channels = $('#channels ul li').length;
+    var next_ch = current_channels + 1;
+    $('#channels ul').append('<li><a href="#" class="ch-link">Ch ' + next_ch + '</a></li>');
+    attachChSwitchClick($('#channels ul li:last'));
+
+    var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : next_ch, scrollback: ''});
+
+    $('.mc').hide();
+    $('#mc').append(mc);
+    attachFormSubmit($('#mc-' + next_ch));
+    $('#mc-' + next_ch).show();
   });
 
 });
