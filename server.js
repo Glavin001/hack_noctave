@@ -43,7 +43,7 @@ var
         connect = require('connect'),
         cookie = require('cookie');
 
-var userStore = {};
+var sessionStore = {};
 
 logger.log('Loading functions.');
 
@@ -109,26 +109,54 @@ logger.log('Server started.');
 // End Server
 // ----------------------------------------------------------------------------
 
+function validateOctaveCmd(octCmd) {
+    if (octCmd === undefined || octCmd === null || 
+        octCmd.lines === undefined || octCmd.lines === null ||
+        octCmd.channel === undefined || octCmd.channel === null) {
+        throw 'Invalid octave command object.';
+    }
+}
+
+function setupSession(sid) {
+    sessionStore[sid] = {};
+}
 
 // ----------------------------------------------------------------------------
 // Start Socket
 // ----------------------------------------------------------------------------
+
+sessionStore = {};
 
 logger.log('Setup socket.');
 
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
     
+    if (!socket.sid) {
+        socket.sid = socket.handshake.sessionID;
+    }
+    
     // testing method
     socket.on('test', function (data) {
-        logger.log('TEST DATA : ' + JSON.stringify(data));
+        logger.log('SOCKET SID : ' + socket.sid);
+        logger.log('TEST DATA  : ' + JSON.stringify(data));
     });
     
     // listen octave event
-    socket.on('octave', function (user) {
+    socket.on('octave', function (octCmd) {
         
         logger.log('Octave event', nodeL.LOG_TYPE.EVENT);
         
+        try {
+            validateOctaveCmd(octCmd);
+        } catch (err) {
+            logger.log(err, nodeL.LOG_TYPE.EVENT);
+            return ;
+        }
+        
+        if (sessionStore[socket.sid] === undefined || sessionStore[socket.sid] === null) {
+            setupSession();
+        }
     });
     
 });
