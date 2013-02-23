@@ -79,6 +79,7 @@ app.configure(function(){
     showStack: true
   }));
   app.set('view engine', 'ejs');
+
   // session support
   app.use(express.cookieParser());
   app.use(express.session({
@@ -87,7 +88,7 @@ app.configure(function(){
         key: 'noct.sid'
     }));
     
-    app.use(app.router);
+  app.use(app.router);
 });
 
 logger.log('Starting server.');
@@ -132,17 +133,23 @@ logger.log('Setup socket.');
 
 io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket) {
+<<<<<<< HEAD
     
     if (!socket.sid) {
         socket.sid = socket.handshake.sessionID;
     }
     
+=======
+
+    socket.emit('connected', { status: 'ok' });
+
+>>>>>>> 3789b392cfc3373d6b2669f651ed24464bd014be
     // testing method
     socket.on('test', function (data) {
         logger.log('SOCKET SID : ' + socket.sid);
         logger.log('TEST DATA  : ' + JSON.stringify(data));
     });
-    
+
     // listen octave event
     socket.on('octave', function (octCmd) {
         
@@ -172,8 +179,8 @@ io.sockets.on('connection', function (socket) {
 });
  
 io.set('authorization', function (data, accept) {
-    
-    if (data.headers.cookie) {    
+
+    if (data.headers.cookie) {
         // attain the session id
         data.sessionID = connect.utils.parseSignedCookies(cookie.parse(decodeURIComponent(data.headers.cookie)),'n0ct4v3')['noct.sid'];
         return accept(null, true);
