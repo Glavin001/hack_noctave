@@ -18,6 +18,7 @@ $(document).ready(function() {
     console.log('To append:');
     console.log(toAppend);
     $('#mc-' + data.channel + ' .scrollback').append('<div class="output-lines">' + data.msg + '</div>');
+    $('.mc.active').attr({ scrollTop: $('.mc.active').attr("scrollHeight") });
 
     socket.emit('octave-received', { status: 'ok' });
   });
@@ -27,7 +28,7 @@ $(document).ready(function() {
     var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : 1, scrollback: ''});
     console.log(mc);
     $('#mc').html(mc);
-    $('#mc-1').show();
+    $('#mc-1').addClass('active');
     socket.emit('octave', { channel: 1, cmd: ''});
   }
   else {
@@ -43,7 +44,7 @@ $(document).ready(function() {
       var cmd = $(".input-text", this).val();
       $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
       $('.input-text', this).val('');
-      var index = $('.mc').index($(this).parent()) + 1;
+      var index = activeMCh();
       socket.emit('octave', { channel: index, cmd: cmd + '\n'});
       return false;
     });
@@ -53,9 +54,10 @@ $(document).ready(function() {
   function attachChSwitchClick(context) {
     $('.ch-link', context).click(function() {
       var index = $("a.ch-link").index(this);
-      console.log("That was div index #" + index);
-      $('.mc').hide();
-      $('.mc:eq(' + index + ')').show();
+      $('.mc.active').removeClass('active');
+      $('#channels .active').removeClass('active');
+      $(this).addClass('active');
+      $('.mc:eq(' + index + ')').addClass('active');
     });
   }
   attachChSwitchClick(document);
@@ -63,15 +65,29 @@ $(document).ready(function() {
   $('#new-channel').click(function() {
     var current_channels = $('#channels ul li').length;
     var next_ch = current_channels + 1;
-    $('#channels ul').append('<li><a href="#" class="ch-link">Ch ' + next_ch + '</a></li>');
+    $('#channels .active').removeClass('active');
+    $('#channels ul').append('<li><a href="#" class="ch-link active">Ch ' + next_ch + '</a></li>');
     attachChSwitchClick($('#channels ul li:last'));
 
     var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : next_ch, scrollback: ''});
 
-    $('.mc').hide();
+    $('.mc.active').removeClass('active');
+    
     $('#mc').append(mc);
     attachFormSubmit($('#mc-' + next_ch));
-    $('#mc-' + next_ch).show();
+    $('#mc-' + next_ch).addClass('active');
   });
+
+  function activeMCh() {
+    return $('.mc').index($('.mc.active')) + 1;
+  }
+
+  $('#reset-channel').click(function() {
+    socket.emit('reset', { channel: activeMCh() });
+  });
+  // $('a#save-channel').click(function() {
+  //   socket.emit('save', { channel: activeMCh() });
+  // });
+
 
 });
