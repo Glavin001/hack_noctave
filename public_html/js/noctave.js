@@ -43,7 +43,8 @@ $(document).ready(function() {
       var cmd = $(".input-text", this).val();
       $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
       $('.input-text', this).val('');
-      socket.emit('octave', { channel: 1, cmd: cmd + '\n'});
+      var index = $('.mc').index($(this).parent()) + 1;
+      socket.emit('octave', { channel: index, cmd: cmd + '\n'});
       return false;
     });
   }

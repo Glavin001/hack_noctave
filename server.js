@@ -154,7 +154,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('octave', function (octCmd) {
         
         logger.log('Octave event', EVENT);
-        
+
         try {
             validateOctaveCmd(octCmd);
         } catch (err) {
