@@ -117,10 +117,6 @@ function validateOctaveCmd(octCmd) {
     }
 }
 
-function setupSession(sid) {
-    sessionStore[sid] = {};
-}
-
 // ----------------------------------------------------------------------------
 // Start Socket
 // ----------------------------------------------------------------------------
@@ -155,7 +151,16 @@ io.sockets.on('connection', function (socket) {
         }
         
         if (sessionStore[socket.sid] === undefined || sessionStore[socket.sid] === null) {
-            setupSession();
+            
+            sessionStore[socket.sid] = {};
+            sessionStore[socket.sid].channel = [];
+            logger.log('Setup new session.', nodeL.LOG_TYPE.EVENT);
+        }
+        
+        if (sessionStore[socket.sid].channel[octCmd] === undefined 
+                || sessionStore[socket.sid].channel[octCmd] === null) {
+                
+            logger.log('Setup new channel.');    
         }
     });
     
