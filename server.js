@@ -137,17 +137,13 @@ var
     spawn = require('child_process').spawn;
 
 io.sockets.on('connection', function (socket) {
-<<<<<<< HEAD
     
     if (socket.sid === undefined || socket.sid === null) {
         socket.sid = socket.handshake.sessionID;
     }
-    
-=======
 
     socket.emit('connected', { status: 'ok' });
 
->>>>>>> 3789b392cfc3373d6b2669f651ed24464bd014be
     // testing method
     socket.on('test', function (data) {
         logger.log('SOCKET SID : ' + socket.sid);
