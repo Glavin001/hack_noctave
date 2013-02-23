@@ -1,0 +1,32 @@
+#header {
+	height: 50px;
+	border: 1px solid #000;
+}
+#logo {
+	width: 40px;
+	height: 40px;
+	float: left;
+}
+#branding-right {
+	width: 40px;
+	height: 40px;
+	float: right;
+}
+#main {
+	width: 100%;
+}
+#left {
+	width: 69%;
+	float: left;
+	border: 1px solid #000;
+}
+
+#right {
+	width: 30%;
+	float: left;
+	border: 1px solid #000;
+}
+
+#footer {
+	
+}
