@@ -54,19 +54,67 @@ $(document).ready(function() {
   function attachChSwitchClick(context) {
     $('.ch-link', context).click(function() {
       var index = $("a.ch-link").index(this);
-      $('.mc.active').removeClass('active');
+      $('#main').addClass('static');
+      $('.mc.active').fadeOut(150).removeClass('active');
       $('#channels .active').removeClass('active');
       $(this).addClass('active');
+      $('#ch-current').text(index + 1);
+      
+      setTimeout(function(){
+        $('#main').removeClass('static');
+      }, 600);
+      
       $('.mc:eq(' + index + ')').addClass('active');
     });
   }
   attachChSwitchClick(document);
+
+  $('#ch-down').click(function() {
+    var index = $("a.ch-link").index($('a.ch-link.active')) + 1;
+    console.log(index);
+    if (index > 1) {
+      $('#main').addClass('static');
+      $('.mc.active').fadeOut(150).removeClass('active');
+      $('#channels .active').removeClass('active');
+
+      $('#ch-current').text(index - 1);
+      $('a.ch-link:eq(' + (index -2) + ')').addClass('active');
+      setTimeout(function(){
+        $('#main').removeClass('static');
+      }, 600);
+    console.log(index);
+      $('.mc:eq(' + (index - 2) + ')').addClass('active');
+    }
+    return false;
+  });
+
+
+  $('#ch-up').click(function() {
+    var index = $("a.ch-link").index($('a.ch-link.active')) + 1;
+    if (index < $('#channels ul li').length) {
+      $('#main').addClass('static');
+      $('.mc.active').fadeOut(150).removeClass('active');
+      $('#channels .active').removeClass('active');
+
+      $('#ch-current').text(index + 1);
+      $('a.ch-link:eq(' + (index) + ')').addClass('active');
+      setTimeout(function(){
+        $('#main').removeClass('static');
+      }, 600);
+    
+      $('.mc:eq(' + (index + 1) + ')').addClass('active');
+    }
+    return false;
+  });
+
 
   $('#new-channel').click(function() {
     var current_channels = $('#channels ul li').length;
     var next_ch = current_channels + 1;
     $('#channels .active').removeClass('active');
     $('#channels ul').append('<li><a href="#" class="ch-link active">Ch ' + next_ch + '</a></li>');
+    $('#ch-count').text($('#channels ul li').length);
+    $('#ch-current').text(next_ch);
     attachChSwitchClick($('#channels ul li:last'));
 
     var mc = new EJS({url: '/tpl/mc.ejs'}).render({channel : next_ch, scrollback: ''});
@@ -77,6 +125,8 @@ $(document).ready(function() {
     attachFormSubmit($('#mc-' + next_ch));
     $('#mc-' + next_ch).addClass('active');
   });
+
+
 
   function activeMCh() {
     return $('.mc').index($('.mc.active')) + 1;
