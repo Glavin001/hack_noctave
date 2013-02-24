@@ -24,11 +24,6 @@ body {
 	border: 1px solid #000;
 }
 
-
-.row {
-	font-size: 3em;
-}
-
 form.input {
 	position: absolute;
 	bottom: 5px;

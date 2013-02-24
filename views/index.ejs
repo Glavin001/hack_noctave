@@ -21,9 +21,8 @@
     <script>
         function sizeScreen() {
             $('#content').height($(window).height() - $('header').height() - $('footer').height());
-            $('#menu').height(($(window).height() - $('header').height() - $('footer').height()) * .96);
-            //$('#mc').width(($(window).height() - $('menu').width());
-            $('#mc').height(($(window).height() - $('header').height() - $('footer').height()));
+            $('#menu').height(($(window).height() - $('header').height() - $('footer').height()) * .90);
+            $('#console').height(($(window).height() - $('header').height() - $('footer').height()));
         }
         window.onload = sizeScreen;
     </script>
@@ -31,33 +30,39 @@
   <body>
     <div id='container'>
       <header>
-        <font id="logo">nOctave ></font>
+        <font id="logo">Noctave ></font>
         <div id='branding' >
-            <div id='branding-node-js' ><font>node + octave</font></div>
-            <div id='branding-web'><font>web</font></div>
+            <div id='branding-node-js' ><font>Node.js + Octave</font></div>
+            <div id='branding-web'><font>Web</font></div>
         </div> 
       </header>
 
       <div id='content'>
             
-        <div id="mc">
+        <div id='console' >
+            <div>Channel : </div>
+            <div id="mc">
+            </div>
+            <font>>  </font><input id="noct-input" type="text" name="input" />
         </div>
 
         <div id="right">
 
           <div id="menu">
-		<div id="buttons">
-			<div class="button" id="new-channel">New Channel</div>
-			<div class="button" id="reset-channel">Reset Channel</div>
-		</div>
-          </div>
-          <div id="channels" style="display: none;">
-		<ul><li><a href="#" class="ch-link active">Ch 1</a></li></ul>
 
-          </div>
-		<div class="ch-box" id="ch-current">1</div> / <div class="ch-box" id="ch-count">1</div>
-		<div class="ch-box" id="ch-down">-</div> / <div class="ch-box" id="ch-up">+</div>
+            <div id="buttons">
+                <div class="button" id="new-channel">New Channel</div>
+                <div class="button" id="reset-channel">Reset Channel</div>
+
+                <div id='' >
+                    <div class="ch-box" id="ch-current">1</div> / <div class="ch-box" id="ch-count">1</div>
+                    <br />
+                    <div class="ch-box" id="ch-down">-</div> / <div class="ch-box" id="ch-up">+</div>
+                </div>
+            </div>
         </div>
+		
+            </div>
         <div style="display: none; width: 100%">.</div>
 
       </div>

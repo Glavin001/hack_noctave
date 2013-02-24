@@ -2,6 +2,20 @@ $ = jQuery;
 $(document).ready(function() {
   var socket = io.connect('http://localhost');
   
+  window.onkeyup = function(e) {
+        
+        if (e.keyCode === 13)
+        {
+            var 
+                cmd = $('#noct-input').val(),
+                index = activeMCh();;
+            $('#noct-input').val('');
+            
+            socket.emit('octave', { channel: index, cmd: cmd+ '\n'});
+            $('#mc-' + index + ' .scrollback').append('<div class="row input">> ' + cmd + '</div>');
+        }   
+    };
+  
   socket.on('connected', function (data) {
     console.log('connected');
 
@@ -45,6 +59,7 @@ $(document).ready(function() {
       $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
       $('.input-text', this).val('');
       var index = activeMCh();
+      
       socket.emit('octave', { channel: index, cmd: cmd + '\n'});
       return false;
     });
