@@ -1,0 +1,18 @@
+/* 
+    Document   : console
+    Created on : 23-Feb-2013, 7:54:01 PM
+    Author     : dawson
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#mc {
+    margin-left: 12px;
+   width: 83%;
+    float: left;
+    border: 1px solid #000;
+}

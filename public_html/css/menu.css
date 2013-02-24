@@ -1,0 +1,35 @@
+/* 
+    Document   : menu
+    Created on : 23-Feb-2013, 8:09:36 PM
+    Author     : dawson
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#right {
+    float : right;
+    border: 1px solid #000;
+    margin-right:12px;
+}
+
+#menu {
+    
+}
+
+.buttons {
+    padding: 24px;
+}
+
+.button {
+    width: 160px;
+    height: 24px;
+    border: 1px solid #000;
+    padding-top: 5px;
+    cursor: pointer;
+    text-align: center;    
+    margin: 3px 6px 3px 6px;
+}
