@@ -10,10 +10,21 @@ root {
     display: block;
 }
 
-#mc {
-    margin-left: 12px;
+#console {
+    margin: 10px 10px 10px 13px;
     width: 83%;
     float: left;
+}
+
+#mc {
+    
+    height:85%;
+    width: 100%;
     border: 1px solid #000;
     overflow-y:scroll;
+}
+
+#noct-input {
+    width:600px;
+    master
 }

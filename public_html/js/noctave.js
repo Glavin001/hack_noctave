@@ -2,6 +2,20 @@ $ = jQuery;
 $(document).ready(function() {
   var socket = io.connect('http://localhost');
   
+  window.onkeyup = function(e) {
+        
+        if (e.keyCode === 13)
+        {
+            var 
+                cmd = $('#noct-input').val(),
+                index = activeMCh();;
+            $('#noct-input').val('');
+            
+            socket.emit('octave', { channel: index, cmd: cmd+ '\n'});
+            $('#mc-' + index + ' .scrollback').append('<div class="row input">> ' + cmd + '</div>');
+        }   
+    };
+  
   socket.on('connected', function (data) {
     console.log('connected');
 
@@ -84,7 +98,7 @@ $(document).ready(function() {
         $('#main').removeClass('static');
       }, 600);
     console.log(index);
-      $('.mc:eq(' + (index - 2) + ')').addClass('active');
+      $('.mc:eq(' + (index - 2) + ')').addClass('active').show();
     }
     return false;
   });
@@ -92,6 +106,7 @@ $(document).ready(function() {
 
   $('#ch-up').click(function() {
     var index = $("a.ch-link").index($('a.ch-link.active')) + 1;
+    console.log(index);
     if (index < $('#channels ul li').length) {
       $('#main').addClass('static');
       $('.mc.active').fadeOut(150).removeClass('active');
@@ -103,7 +118,7 @@ $(document).ready(function() {
         $('#main').removeClass('static');
       }, 600);
     
-      $('.mc:eq(' + (index + 1) + ')').addClass('active');
+      $('.mc:eq(' + index + ')').addClass('active').show();
     }
     return false;
   });

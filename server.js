@@ -276,7 +276,7 @@ io.sockets.on('connection', function (socket) {
             
             // socket callbacks
             sessionStore[socket.sid].channel[octCmd.channel].stdin.on('error', function() {
-                logger.log('Session : ' + socket.sid + '  |  Channel : ' + octInfo.channel + '  |  EVENT : octave instream error' , EVENT);
+                logger.log('Session : ' + socket.sid + '  |  Channel : ' + octCmd.channel + '  |  EVENT : octave instream error' , EVENT);
                 socket.emit('octave', {channel : octCmd.channel, msg : 'Octave command error.'});
             });
 
