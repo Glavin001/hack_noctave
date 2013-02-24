@@ -39,3 +39,11 @@ root {
   text-align: center;    
   margin: 10px 6px 3px 10px;
 }
+
+#noct-authed-menu {
+  visibility:hidden;
+}
+
+#noct-reg-menu {
+  visibility:hidden;
+}
