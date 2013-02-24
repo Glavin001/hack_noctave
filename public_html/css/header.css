@@ -11,7 +11,7 @@ root {
 }
 
 header {
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
     padding : 0px 20px 0px 20px;
     margin:  10px;
     width:95%;
@@ -20,27 +20,23 @@ header {
     margin-right:auto;
 }
 
-header font {
-    font-family: 'Courier New';
-}
-
-#logo {
+header #noct-logo {
 	font-size: 40px;
         font-weight: 600;
         margin-top: 20px;
         margin-bottom: 20px;
 }
 
-header #branding {
+header #noct-brand {
     float: right;
 }
 
-#branding-node-js {
+#noct-brand-njs {
     border-bottom: 1px solid #000;
     margin: 0;
 }
 
-#branding-web {
+#noct-brand-web {
     width: 100%;
     text-align: center;
 }

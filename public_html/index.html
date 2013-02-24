@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>nOctave</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/css/header.css" type="text/css" />
+    <link rel="stylesheet" href="/css/menu.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/console.css" type="text/css"/>
+
+    <script src="/js/libs/jquery-1.9.0/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/noctave.js"></script>
+
+    <script>
+
+      function sizeScreen() {
+        $('#noct-content').height(($(window).height() - $('header').height() - $('footer').height()) * .94);
+        $('#noct-rpanel').height(($('#noct-content').height() - $('footer').height()) * .96);
+        $('#noct-console').width(($('#noct-content').width() - $('#noct-rpanel').width())*.95);
+      }
+      window.onload = sizeScreen;
+      
+      $(window).resize(sizeScreen);
+    </script>
+  </head>
+  <body>
+    <div id='container'>
+
+      <header>
+        <font id="noct-logo">Noctave ></font>
+        <div id='noct-brand' >
+          <div id='noct-brand-njs' ><font>Node.js + Octave</font></div>
+          <div id='noct-brand-web'><font>Web</font></div>
+        </div> 
+      </header>
+
+      <div id='noct-content'>
+
+        <div id='noct-console' >
+          <font class='noct-cfont'>Channel :</font>
+          
+          <div id='noct-ch-1' class="noct-screen">
+            <div id="noct-stdout">
+            </div>
+            <font class='noct-cfont'>&gt; </font><input id="noct-stdin" class='noct-cfont' type="text" name="input" />
+          </div>
+        </div>
+        
+        <div id="noct-rpanel">
+         
+          <div class="noct-menu" id ='noct-authed-menu' >
+            
+            <div class="noct-menu" id ='noct-login-menu' >
+              <input class='noct-button' value='Username' type ='text' /><br/>
+              <input class='noct-button' value='Password' type ='password' />
+              <div class="noct-button" id="new-login-btn">Login</div>
+              <div class="noct-button" id="new-reg-btn">Register</div>
+            </div>
+            
+            <div class="noct-menu" id ='noct-reg-menu'>
+            </div>
+            
+            <div>
+              <div class="noct-button" id="new-channel">Save Script</div>
+              <div class="noct-button" id="new-channel">Load Script</div>
+              <div class="noct-button" id="new-channel">New Channel</div>
+              <div class="noct-button" id="reset-channel">Chnl Reset</div>
+              <div class="noct-button" id="reset-channel">Chnl Kill</div>
+              <div class="noct-button" id="reset-channel">Chnl Up</div>
+              <div class="noct-button" id="reset-channel">Chnl Down</div>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+
+      <footer>
+        <div>
+          <ul>
+            <li>Dawson Reid</li>
+            <li>Ryan Palmer</li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

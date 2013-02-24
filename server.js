@@ -78,7 +78,6 @@ app.configure(function(){
     dumpExceptions: true, 
     showStack: true
   }));
-  app.set('view engine', 'ejs');
 
   // session support
   app.use(express.cookieParser());
@@ -93,17 +92,19 @@ app.configure(function(){
 
 logger.log('Starting server.');
 
-app.get('/', function (req, res) {
+app.get('/', function (request, response) {
     logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
-    req.on('end', requestEnded);
-    req.on('close', requestClosed);
-    res.render('index.ejs');
+    request.on('end', requestEnded);
+    request.on('close', requestClosed);
+    
+    response.sendfile('./public_html/index.html');
 });
 
 app.get('/test', function (request, response) {
     logger.log('Request started.', nodeL.LOG_TYPE.REQUEST);
     request.on('end', requestEnded);
     request.on('close', requestClosed);
+    
     response.sendfile('./public_html/test.html');
 });
 
@@ -277,7 +278,7 @@ io.sockets.on('connection', function (socket) {
             // socket callbacks
             sessionStore[socket.sid].channel[octCmd.channel].stdin.on('error', function() {
                 logger.log('Session : ' + socket.sid + '  |  Channel : ' + octCmd.channel + '  |  EVENT : octave instream error' , EVENT);
-                socket.emit('octave', {channel : octCmd.channel, msg : 'Octave command error.'});
+                socket.emit('octave', {channel : octCmd.channel, msg : 'Octave command error. Please reset channel.'});
             });
 
             sessionStore[socket.sid].channel[octCmd.channel].stdout.on('data', function (message) {

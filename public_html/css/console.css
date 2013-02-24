@@ -10,21 +10,31 @@ root {
     display: block;
 }
 
-#console {
+#noct-console {
     margin: 10px 10px 10px 13px;
-    width: 83%;
+    height:100%;
     float: left;
 }
 
-#mc {
-    
-    height:85%;
-    width: 100%;
-    border: 1px solid #000;
-    overflow-y:scroll;
+.noct-screen {
+  background-color:#000000;
+  height:90%;
+  overflow-y:scroll;
+  width: 100%;
+  border: 1px solid #000;
 }
 
-#noct-input {
-    width:600px;
-    master
+#noct-stdout {
+}
+
+#noct-stdin {
+    background-color:transparent; 
+    border: 0px solid;
+    width:95%;
+    outline-width: 0;
+}
+
+.noct-cfont {
+  color:#00A600;
+  font-size: 14px;
 }

@@ -1,59 +1,47 @@
 html,
 body {
-   margin:0;
-   padding:0;
-   height:100%;
+  margin:0;
+  padding:0;
+  height:100%;
+  background-color:#E8E86C;
 }
 
-#container {
-   height:100%;
-   position:relative;
+* {
+  font-family: 'Courier New';
 }
 
-#main {
-	padding: 10px;
-	margin-top: 60px;
-	padding-bottom: 60px;
-}
-#main.static {
-	background-image: url(/static.gif);
-}
-#left {
-	width: 69%;
-	float: left;
-	border: 1px solid #000;
+font, input {
+  
 }
 
-form.input {
-	position: absolute;
-	bottom: 5px;
-	left: 15px;
+#noct-content {
+  width:98%;
+  border: 1px solid #000;
+  margin : 0px 0px 0px 0px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0px 0px 15px #888888;
+  background-color:#FFCF75;
 }
 
-
-.mc {
-	display:none;
+.noct-ch-box {
+  width: 35px;
+  height: 22px;
+  border: 1px solid #000;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
 }
 
-
-.mc.active{
-	display:block;
+footer {
+  width: 95%;
+  padding: 10px;
+  text-align: center;
 }
 
-.mc .scrollback {
-	font-family: "Lucida Console", Monaco, monospace;
-	padding: 5px;
-}
-
-.ch-link.active {
-	font-weight:bold;
-}
-
-.ch-box {
-	width: 35px;
-	height: 22px;
-	border: 1px solid #000;
-	display: inline-block;
-	cursor: pointer;
-	text-align: center;
+footer li {
+  display: inline;
+  list-style-type: none;
+  margin-left: 100px;
+  margin-right: 100px
 }

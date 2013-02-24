@@ -7,29 +7,35 @@
 */
 
 root { 
-    display: block;
+  display: block;
 }
 
-#right {
-    float : right;
-    border: 1px solid #000;
-    margin-right:12px;
+#noct-rpanel {
+  float : right;
+  border: 1px solid #000;
+  margin-right:12px;
+  margin-top:28px;
+  padding:10px 0px 10px 0px;
 }
 
-#menu {
-    
+.noct-menu-item {
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.buttons {
-    padding: 24px;
+#noct-menu {
+  width:100%;
+
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.button {
-    width: 160px;
-    height: 24px;
-    border: 1px solid #000;
-    padding-top: 5px;
-    cursor: pointer;
-    text-align: center;    
-    margin: 3px 6px 3px 6px;
+.noct-button {
+  width: 140px;
+  height: 24px;
+  border: 1px solid #000;
+  padding-top: 5px;
+  cursor: pointer;
+  text-align: center;    
+  margin: 10px 6px 3px 10px;
 }
