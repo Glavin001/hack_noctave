@@ -12,7 +12,8 @@ root {
 
 #mc {
     margin-left: 12px;
-   width: 83%;
+    width: 83%;
     float: left;
     border: 1px solid #000;
+    overflow-y:scroll;
 }

@@ -45,6 +45,7 @@ $(document).ready(function() {
       $('.scrollback', $(this).parent()).append('<div class="row input">> ' + cmd + '</div>');
       $('.input-text', this).val('');
       var index = activeMCh();
+      
       socket.emit('octave', { channel: index, cmd: cmd + '\n'});
       return false;
     });
