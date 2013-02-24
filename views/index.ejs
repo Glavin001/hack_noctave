@@ -21,7 +21,7 @@
     <script>
         function sizeScreen() {
             $('#content').height($(window).height() - $('header').height() - $('footer').height());
-            $('#menu').height(($(window).height() - $('header').height() - $('footer').height()) * .9);
+            $('#menu').height(($(window).height() - $('header').height() - $('footer').height()) * .96);
             //$('#mc').width(($(window).height() - $('menu').width());
             $('#mc').height(($(window).height() - $('header').height() - $('footer').height()));
         }
@@ -44,18 +44,21 @@
         </div>
 
         <div id="right">
-            
-            <div id="menu">
-                <div id="buttons">
-                    <div class="button" id="new-channel">New Channel</div>
-                    <div class="button" id="reset-channel">Reset Channel</div>
-                </div>
-            </div>
 
-            <div id="channels">
-                <ul><li><a href="#" class="ch-link active">Ch 1</a></li></ul>
-            </div>
+          <div id="menu">
+		<div id="buttons">
+			<div class="button" id="new-channel">New Channel</div>
+			<div class="button" id="reset-channel">Reset Channel</div>
+		</div>
+          </div>
+          <div id="channels" style="display: none;">
+		<ul><li><a href="#" class="ch-link active">Ch 1</a></li></ul>
+
+          </div>
+		<div class="ch-box" id="ch-current">1</div> / <div class="ch-box" id="ch-count">1</div>
+		<div class="ch-box" id="ch-down">-</div> / <div class="ch-box" id="ch-up">+</div>
         </div>
+        <div style="display: none; width: 100%">.</div>
 
       </div>
 
