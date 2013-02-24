@@ -83,7 +83,7 @@ $(document).ready(function() {
         $('#main').removeClass('static');
       }, 600);
     console.log(index);
-      $('.mc:eq(' + (index - 2) + ')').addClass('active');
+      $('.mc:eq(' + (index - 2) + ')').addClass('active').show();
     }
     return false;
   });
@@ -91,6 +91,7 @@ $(document).ready(function() {
 
   $('#ch-up').click(function() {
     var index = $("a.ch-link").index($('a.ch-link.active')) + 1;
+    console.log(index);
     if (index < $('#channels ul li').length) {
       $('#main').addClass('static');
       $('.mc.active').fadeOut(150).removeClass('active');
@@ -102,7 +103,7 @@ $(document).ready(function() {
         $('#main').removeClass('static');
       }, 600);
     
-      $('.mc:eq(' + (index + 1) + ')').addClass('active');
+      $('.mc:eq(' + index + ')').addClass('active').show();
     }
     return false;
   });

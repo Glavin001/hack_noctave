@@ -10,6 +10,25 @@ body {
    position:relative;
 }
 
+#main {
+	padding: 10px;
+	margin-top: 60px;
+	padding-bottom: 60px;
+}
+#main.static {
+	background-image: url(/static.gif);
+}
+#left {
+	width: 69%;
+	float: left;
+	border: 1px solid #000;
+}
+
+
+.row {
+	font-size: 3em;
+}
+
 form.input {
 	position: absolute;
 	bottom: 5px;
