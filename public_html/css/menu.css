@@ -38,6 +38,7 @@ root {
   cursor: pointer;
   text-align: center;    
   margin: 10px 6px 3px 10px;
+  box-shadow: 0px 0px 15px #888888;
 }
 
 #noct-authed-menu {
@@ -46,4 +47,9 @@ root {
 
 #noct-reg-menu {
   visibility:hidden;
+}
+
+#noct-channel {
+  font-weight: 900;
+  color:#558F1D;
 }

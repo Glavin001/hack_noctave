@@ -3,15 +3,11 @@ body {
   margin:0;
   padding:0;
   height:100%;
-  background-color:#E8E86C;
+  background-color:#7ACC29;
 }
 
 * {
   font-family: 'Courier New';
-}
-
-font, input {
-  
 }
 
 #noct-content {
@@ -21,7 +17,7 @@ font, input {
   margin-left: auto;
   margin-right: auto;
   box-shadow: 0px 0px 15px #888888;
-  background-color:#FFCF75;
+  background-color:#FFCC66;
 }
 
 .noct-ch-box {

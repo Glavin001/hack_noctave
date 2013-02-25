@@ -17,7 +17,7 @@ root {
 }
 
 .noct-screen {
-  background-color:#000000;
+  background-color:#3E3E3E;
   height:90%;
   overflow-y:scroll;
   width: 100%;
@@ -35,6 +35,6 @@ root {
 }
 
 .noct-cfont {
-  color:#00A600;
+  color:#7ACC29;
   font-size: 14px;
 }
